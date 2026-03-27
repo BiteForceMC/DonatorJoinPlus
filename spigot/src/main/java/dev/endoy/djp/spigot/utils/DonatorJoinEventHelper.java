@@ -26,6 +26,12 @@ public class DonatorJoinEventHelper
 
     public static void executeEvent( final User user, final boolean join, final World world, final Player p )
     {
+        if ( DonatorJoinPlus.i().getPermission() == null )
+        {
+            DonatorJoinPlus.i().debug( "No Vault permission provider was found; skipping rank based join/quit events." );
+            return;
+        }
+
         final String[] groups = DonatorJoinPlus.i().getPermission().getPlayerGroups( p );
 
         DonatorJoinPlus.i().debug( "List of groups for player " + p.getName() + ": " + Arrays.toString( groups ) );

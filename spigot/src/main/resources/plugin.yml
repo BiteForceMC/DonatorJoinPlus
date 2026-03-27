@@ -3,8 +3,12 @@ main: dev.endoy.djp.spigot.DonatorJoinPlus
 version: ${project.version}
 depend: [ Vault ]
 author: didjee2
-api-version: '1.13'
+api-version: '1.21'
 softdepend:
+  - PlaceholderAPI
+  - LuckPerms
+  - BankPlus
+  - BiteLeaderboards
   - PremiumVanish
   - SuperVanish
   - VelocityVanish

@@ -44,6 +44,7 @@ public class PlayerListener implements Listener
         Player player = event.getPlayer();
 
         SpigotUtils.setMetaData( player, Constants.DJP_JOIN_TIME_KEY, System.currentTimeMillis() );
+        SpigotUtils.prefetchProfilePlaceholders( player );
 
         DonatorJoinPlus.i().debug( "Initializing loading of storage for player " + player.getName() + "." );
         DonatorJoinPlus.i().getUserManager().loadUser( player.getUniqueId() );
@@ -53,6 +54,7 @@ public class PlayerListener implements Listener
     public void onJoin( PlayerJoinEvent event )
     {
         Player p = event.getPlayer();
+        SpigotUtils.prefetchProfilePlaceholders( p );
         User user = DonatorJoinPlus.i().getUserManager().getOrLoadUserSync( p.getUniqueId() );
 
         DonatorJoinPlus.i().debug( "User loaded for " + p.getName() + ": " + user.toString() );

@@ -27,6 +27,7 @@ import dev.endoy.djp.storage.managers.FileStorageManager;
 import dev.endoy.djp.utils.Utils;
 import com.google.common.collect.Lists;
 import lombok.Getter;
+import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.permission.Permission;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
@@ -46,6 +47,7 @@ public class DonatorJoinPlus extends JavaPlugin implements DonatorJoinBase
     private final List<RankData> rankData = Lists.newArrayList();
     private final List<SlotLimit> slotLimits = Lists.newArrayList();
     private Permission permission;
+    private Economy economy;
     private boolean disableJoinMessage;
     private boolean disableQuitMessage;
     private boolean usePriorities;
@@ -89,11 +91,7 @@ public class DonatorJoinPlus extends JavaPlugin implements DonatorJoinBase
         this.vanishIntegration = this.detectVanishIntegration();
         this.vanishIntegration.register();
 
-        RegisteredServiceProvider<Permission> permissionProvider = Bukkit.getServicesManager().getRegistration( Permission.class );
-        if ( permissionProvider != null )
-        {
-            permission = permissionProvider.getProvider();
-        }
+        setupProviders();
 
         getServer().getPluginManager().registerEvents( new PlayerListener(), this );
         getServer().getPluginManager().registerEvents( new SlotListener(), this );
@@ -135,6 +133,31 @@ public class DonatorJoinPlus extends JavaPlugin implements DonatorJoinBase
         }
 
         new Metrics( this );
+    }
+
+    private void setupProviders()
+    {
+        final RegisteredServiceProvider<Permission> permissionProvider = Bukkit.getServicesManager()
+                .getRegistration( Permission.class );
+        if ( permissionProvider != null )
+        {
+            permission = permissionProvider.getProvider();
+        }
+        else
+        {
+            getLogger().warning( "No Vault permission provider found. Rank checks will not function." );
+        }
+
+        final RegisteredServiceProvider<Economy> economyProvider = Bukkit.getServicesManager()
+                .getRegistration( Economy.class );
+        if ( economyProvider != null )
+        {
+            economy = economyProvider.getProvider();
+        }
+        else
+        {
+            getLogger().warning( "No Vault economy provider found. {player_balance} will display N/A." );
+        }
     }
 
     private VanishIntegration detectVanishIntegration()
