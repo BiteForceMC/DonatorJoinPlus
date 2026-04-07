@@ -14,6 +14,7 @@ import dev.endoy.djp.DonatorJoinCore;
 import dev.endoy.djp.library.Library;
 import dev.endoy.djp.library.StandardLibrary;
 import dev.endoy.djp.spigot.commands.DJCommand;
+import dev.endoy.djp.spigot.commands.JoinMessageCommand;
 import dev.endoy.djp.spigot.data.RankData;
 import dev.endoy.djp.spigot.integrations.vanish.*;
 import dev.endoy.djp.spigot.listeners.PlayerListener;
@@ -96,6 +97,9 @@ public class DonatorJoinPlus extends JavaPlugin implements DonatorJoinBase
         getServer().getPluginManager().registerEvents( new PlayerListener(), this );
         getServer().getPluginManager().registerEvents( new SlotListener(), this );
         CommandManager.getInstance().registerCommand( new DJCommand() );
+        final JoinMessageCommand joinMessageCommand = new JoinMessageCommand();
+        getServer().getPluginManager().registerEvents( joinMessageCommand, this );
+        CommandManager.getInstance().registerCommand( joinMessageCommand );
 
         AbstractStorageManager.StorageType type;
         final String typeString = configuration.getString( "storage.type" ).toUpperCase();

@@ -28,6 +28,11 @@ usepriorities: true
 # true = rank matching uses the permission node field below
 usepermissions: true
 
+joinmessage-command:
+  menu-title: '&8Join Messages'
+  no-permission-message: 'You must have a Rank to use this command. Click on this message to open the store'
+  store-link: 'https://store.biteforcemc.com'
+
 vanish-support: true
 
 integrations:
